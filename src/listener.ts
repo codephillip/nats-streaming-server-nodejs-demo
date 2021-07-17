@@ -18,15 +18,23 @@ stan.on('connect', () => {
 
     const options = stan.subscriptionOptions()
         // allows manual trigger after processing is done
-        .setManualAckMode(true);
+        .setManualAckMode(true)
+        // returns all events from inception. However, coupled with setDurableName, this will trigger once
+        .setDeliverAllAvailable()
+        // usually same name as (k8s) service name. to test this
+        .setDurableName("foobar-service-listener");
 
-    // add a queue group to prevent duplicate processing
+    // add a queue group to prevent duplicate processing. queuegroup + setDurableName + setDeliverAllAvailable,
+    // prevents NATS from resetting memory about previous events
+    // https://www.udemy.com/course/microservices-with-node-js-and-react/learn/lecture/19124592#notes
     const sub = stan.subscribe(Subjects.SmsNotificationCreated, 'listenerQueueGroup', options);
+
     // message = event, msg = object of data
     // annotate msg with Message
     sub.on('message', (msg: Message) => {
+        // ${JSON.parse(msg.getData())
         // @ts-ignore
-        console.log(`Received event # ${msg.getSequence()} with ${msg.getData()} data ${JSON.parse(msg.getData())}`);
+        console.log(`Received event # ${msg.getSequence()} with ${msg.getData()} data`);
         // trigger on process finished
         msg.ack();
     });
@@ -43,4 +51,3 @@ stan.on('close', ()=>{
 // where events are sent to dead clients
 process.on('SIGINT', () => stan.close());
 process.on('SIGTERM', () => stan.close());
-

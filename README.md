@@ -2,6 +2,9 @@
 
 ## Setup
 
+NOTE: The NATS server in this demo is running in a separate project inside a k8s pod. You may as well setup your own NATS server elsewhere and connect to that
+
+
 - Install dependencies
 
 npm install node-nats-streaming ts-node-dev typescript @types/node
@@ -28,7 +31,10 @@ k port-forward nats-depl-787b7566bb-jbvcm 8222:8222
 - Navigate into the channels subscribers http://localhost:8222/streaming/channelsz?subs=1
 
 - Add json chrome extension to view the json better
-  
+
 https://chrome.google.com/webstore/detail/json-formatter/bcjindcccaagfpapjjmafapmmgkkhgoa/related?hl=en
 
-- 
+
+## General NATS use
+
+- For event redelivery use 
