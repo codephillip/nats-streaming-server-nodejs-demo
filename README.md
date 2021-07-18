@@ -4,6 +4,8 @@
 
 NOTE: The NATS server in this demo is running in a separate project inside a k8s pod. You may as well setup your own NATS server elsewhere and connect to that
 
+CREDIT: Inspired by https://www.udemy.com/course/microservices-with-node-js-and-react
+
 
 - Install dependencies
 
