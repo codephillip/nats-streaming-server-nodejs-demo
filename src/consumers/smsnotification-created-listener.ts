@@ -10,12 +10,6 @@ export class SmsNotificationCreatedListener extends Listener<SmsNotificationCrea
 
     async onMessage(data: SmsNotificationCreatedEvent['data'], msg: Message) {
         const {message, phoneNumbers} = data;
-
-        // const smsModel = SmsModel.build({
-        //     message,
-        //     phoneNumbers,
-        // });
-        // await smsModel.save();
         console.log(msg.getSequence())
         console.log(message)
         console.log(phoneNumbers)
